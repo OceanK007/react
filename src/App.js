@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person'; // Can give any other name as well
 
 class App extends Component {
@@ -46,11 +45,7 @@ class App extends Component {
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer',
-      ':hover': {   // Radium feature
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
+      cursor: 'pointer'
     };
 
     let persons = null;
@@ -70,11 +65,6 @@ class App extends Component {
       );
 
       style.backgroundColor = 'red';
-      // Radium feature
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
     }
 
     const classes = [];    
@@ -86,20 +76,16 @@ class App extends Component {
     }
 
     // .join(' ') : to convert array to string with space between elements 'red bold'
-    return (
-      // To use @media queries we need to wrap all content inside <StyleRoot> tag
-      <StyleRoot>   
-        <div className="App">
-          <h1>Hi, I'm a React App</h1>
-          <p className={classes.join(' ')}>This is really working!</p>
-          {/* It must not be used, since it creates performance issues, use .bind() instead */}
-          <button style={style} onClick={this.togglePersonsHandler}>Toggle Persons</button>
-          {persons}        
-        </div>
-      </StyleRoot>
+    return ( 
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p className={classes.join(' ')}>This is really working!</p>
+        {/* It must not be used, since it creates performance issues, use .bind() instead */}
+        <button style={style} onClick={this.togglePersonsHandler}>Toggle Persons</button>
+        {persons}        
+      </div>
     );
   }
 }
 
-// Wrapping our App component in Radium
-export default Radium(App);
+export default App;
