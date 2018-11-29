@@ -1,76 +1,105 @@
 import React, { Component } from 'react';
 import './App.css';
+import Radium, { StyleRoot } from 'radium';
 import Person from './Person/Person'; // Can give any other name as well
 
 class App extends Component {
   state = {
     persons: [
-      { name: 'Ocean', age: 28 },
-      { name: 'Sandeep', age: 28 },
-      { name: 'Ashutosh', age: 27 }
-    ]
+      { id: 1, name: 'Ocean', age: 28 },
+      { id: 2, name: 'Sandeep', age: 28 },
+      { id: 3, name: 'Ashutosh', age: 27 }
+    ],
+    showPersons: false
+  } 
+
+  nameChangedHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => p.id === id);
+    const person = {...this.state.persons[personIndex]}; // Copying the person
+    person.name = event.target.value; // setting value
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({ persons: persons });
   }
 
-  // Add "Handler" at end to indicate that it's used by event handlers
-  // You can define any name though
-  switchNameHandler = (newName) => {
-    // console.log("Clicked");
-    
-    // We can't change state directly like this
-    // this.state.persons[0].name = 'Life'; // DON'T DO THIS
-
-    // setState just merges the differences, it doesn't replace whole state
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Sandeep', age: 28 },
-        { name: 'Ashutosh', age: 28 }
-      ]
-    });
+  deletePersonHandler = (personIndex) => {
+    //const persons = this.state.persons.slice(); // to copy
+    const persons = [...this.state.persons];  // to copy
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: 'Ocean', age: 28 },
-        { name: event.target.value, age: 28 },
-        { name: 'Ashutosh', age: 27 }
-      ]
-    });
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
   }
 
   render() {
     // It's hard to use hovering styles while using inline styling
+    // We can use Radium to apply hovering styles
     const style = {
       // javascript properties
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {   // Radium feature
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
+    let persons = null;
+    
+    if(this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return <Person 
+                    name={person.name} 
+                    age={person.age} 
+                    click={() => this.deletePersonHandler(index)} 
+                    key={person.id} 
+                    changed={(event) => this.nameChangedHandler(event, person.id)} />
+          })}
+        </div>
+      );
+
+      style.backgroundColor = 'red';
+      // Radium feature
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
+    }
+
+    const classes = [];    
+    if(this.state.persons.length <= 2) {
+      classes.push('red');  // classes = ['red'];
+    }
+    if(this.state.persons.length <= 1) {
+      classes.push('bold'); // classes = ['red', 'bold']
+    }
+
+    // .join(' ') : to convert array to string with space between elements 'red bold'
     return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        {/* It must not be used, since it creates performance issues, use .bind() instead */}
-        <button style={style} onClick={() => this.switchNameHandler('Life')}>Switch Name</button>
-        <Person 
-        name={this.state.persons[0].name} 
-        age={this.state.persons[0].age} />
-        <Person 
-        name={this.state.persons[1].name} 
-        age={this.state.persons[1].age}
-        // Best way is to use .bind()
-        clickit={this.switchNameHandler.bind(this, 'Ocean!!!')}
-        changed={this.nameChangedHandler}>My Hobbies: Gaming</Person>
-        <Person 
-        name={this.state.persons[2].name} 
-        age={this.state.persons[2].age} />
-      </div>
+      // To use @media queries we need to wrap all content inside <StyleRoot> tag
+      <StyleRoot>   
+        <div className="App">
+          <h1>Hi, I'm a React App</h1>
+          <p className={classes.join(' ')}>This is really working!</p>
+          {/* It must not be used, since it creates performance issues, use .bind() instead */}
+          <button style={style} onClick={this.togglePersonsHandler}>Toggle Persons</button>
+          {persons}        
+        </div>
+      </StyleRoot>
     );
   }
 }
 
-export default App;
+// Wrapping our App component in Radium
+export default Radium(App);
