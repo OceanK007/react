@@ -4,14 +4,39 @@ import Persons from '../components/Persons/Persons'; // Can give any other name 
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
-  state = {
-    persons: [
-      { id: 1, name: 'Ocean', age: 28 },
-      { id: 2, name: 'Sandeep', age: 28 },
-      { id: 3, name: 'Ashutosh', age: 27 }
-    ],
-    showPersons: false
-  } 
+  constructor(props) {
+    super(props);
+    console.log('[App.js] inside constructor() ', props);
+
+    // If you have a constructor then initialize state inside constructor
+    // Else if you don't have constructor, then initialize state anywhere else
+    this.state = {
+      persons: [
+        { id: 1, name: 'Ocean', age: 28 },
+        { id: 2, name: 'Sandeep', age: 28 },
+        { id: 3, name: 'Ashutosh', age: 27 }
+      ],
+      showPersons: false
+    } 
+  }
+
+  componentWillMount() {
+    console.log('[App.js] inside componentWillMount()');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] inside componentDidMount()');
+  }
+
+  // // Initalize state in constructor if you have defined constructor
+  // state = {
+  //   persons: [
+  //     { id: 1, name: 'Ocean', age: 28 },
+  //     { id: 2, name: 'Sandeep', age: 28 },
+  //     { id: 3, name: 'Ashutosh', age: 27 }
+  //   ],
+  //   showPersons: false
+  // } 
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => p.id === id);
@@ -37,6 +62,8 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] inside render()');
+
     let persons = null;
     
     if(this.state.showPersons) {
