@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './App.css';
-import Person from '../components/Persons/Person/Person'; // Can give any other name as well
+import Persons from '../components/Persons/Persons'; // Can give any other name to default exports as well
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -37,40 +38,22 @@ class App extends Component {
 
   render() {
     let persons = null;
-    let btnClass = '';
     
     if(this.state.showPersons) {
-      persons = (
-        <div>
-          {this.state.persons.map((person, index) => {
-            return <Person 
-                    name={person.name} 
-                    age={person.age} 
-                    click={() => this.deletePersonHandler(index)} 
-                    key={person.id} 
-                    changed={(event) => this.nameChangedHandler(event, person.id)} />
-          })}
-        </div>
-      );
-
-      btnClass = classes.Red;
+      persons = <Persons 
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangedHandler} />
     }
 
-    const assignedClasses = [];    
-    if(this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red);  // classes = ['red'];
-    }
-    if(this.state.persons.length <= 1) {
-      assignedClasses.push(classes.bold); // classes = ['red', 'bold']
-    }
-
-    // .join(' ') : to convert array to string with space between elements 'red bold'
     return ( 
-      <div className={classes.App}>
-        <h1>Hi, I'm a React App</h1>
-        <p className={assignedClasses.join(' ')}>This is really working!</p>
-        {/* It must not be used, since it creates performance issues, use .bind() instead */}
-        <button className={btnClass} onClick={this.togglePersonsHandler}>Toggle Persons</button>
+      <div className={classes.App}>    
+        <Cockpit 
+          appTitle={this.props.title}  // this.props property coming from Component class
+          showPersons={this.state.showPersons} 
+          persons={this.state.persons} 
+          clicked={this.togglePersonsHandler}
+        />    
         {persons}        
       </div>
     );
