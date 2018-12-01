@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Person from './Person/Person';
 
-class Persons extends Component {
+class Persons extends PureComponent {
     constructor(props) {
         super(props);
         console.log('[Persons.js] inside constructor() ', props);
@@ -19,13 +19,23 @@ class Persons extends Component {
         console.log('[UPDATE Persons.js] inside componentWillReceiveProps() ', nextProps);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('[UPDATE Persons.js] inside shouldComponentUpdate() ', nextProps, nextState);
-        //return true;    // Continue the updating process
-        //return false;   // Stop the further updating process
+    
+    // If we are using Pure component then no need to implement shouldComponentUpdate() method
+    // Since it automatically checks if anything changed in state using shallow copy. and 
+    // If nothing has changed then it won't proceed further
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('[UPDATE Persons.js] inside shouldComponentUpdate() ', nextProps, nextState);
+    //     //return true;    // Continue the updating process
+    //     //return false;   // Stop the further updating process
         
-        return nextProps.persons !== this.props.persons;
-    }
+    //     // We must return true only when something has changed in state, since if you return true
+    //     // everytime, then it will render DOM again and this will be performance issue if 
+    //     // DOM is refreshed even nothing has changed.
+    //     return nextProps.persons !== this.props.persons ||
+    //     nextProps.changed !== this.props.changed ||
+    //     nextProps.clicked !== this.props.clicked;
+    // }
     
     componentWillUpdate(nextProps, nextState) {
         console.log('[UPDATE Persons.js] inside componentWillUpdate() ', nextProps, nextState);

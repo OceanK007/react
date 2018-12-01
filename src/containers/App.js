@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons'; // Can give any other name to default exports as well
 import Cockpit from '../components/Cockpit/Cockpit';
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props);
     console.log('[App.js] inside constructor() ', props);
@@ -27,6 +27,31 @@ class App extends Component {
   componentDidMount() {
     console.log('[App.js] inside componentDidMount()');
   }
+
+  // If we are using Pure component then no need to implement shouldComponentUpdate() method
+  // Since it automatically checks if anything changed in state using shallow copy. and 
+  // If nothing has changed then it won't proceed further
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('[UPDATE App.js] inside shouldComponentUpdate() ', nextProps, nextState);
+  //   //return true;    // Continue the updating process
+  //   //return false;   // Stop the further updating process
+
+  //   // We must return true only when something has changed in state, since if you return true
+  //   // everytime, then it will render DOM again and this will be performance issue if 
+  //   // DOM is refreshed even nothing has changed.
+  //   return nextState.persons !== this.state.persons ||
+  //          nextState.showPersons !== this.state.showPersons;
+  // }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('[UPDATE App.js] inside componentWillUpdate() ', nextProps, nextState);
+  }
+
+  componentDidUpdate() {
+    console.log('[UPDATE App.js] inside componentDidUpdate()');
+  }
+
 
   // // Initalize state in constructor if you have defined constructor
   // state = {
@@ -75,6 +100,7 @@ class App extends Component {
 
     return ( 
       <div className={classes.App}>    
+        <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
         <Cockpit 
           appTitle={this.props.title}  // this.props property coming from Component class
           showPersons={this.state.showPersons} 
