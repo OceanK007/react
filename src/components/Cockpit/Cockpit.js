@@ -17,13 +17,17 @@ const cockpit = (props) => {
     }
 
     return (
-        <div>
+        // This empty <></> JSX tag is called fragment.
+        // OR can use AUX (HOC)
+        <>
+        {/* <Aux> */}
             <h1>{props.appTitle}</h1>
             {/* // .join(' ') : to convert array to string with space between elements 'red bold' */}
             <p className={assignedClasses.join(' ')}>This is really working!</p>
             {/* It must not be used, since it creates performance issues, use .bind() instead */}
             <button className={btnClass} onClick={props.clicked}>Toggle Persons</button>
-        </div>
+        {/* </Aux> */}
+        </>
     );
 };
 
