@@ -11,15 +11,19 @@ import React, { Component } from 'react';
 
 // Returning class component using HOC
 const withClass = (WrappedComponent, className) => {
-    return class extends Component {   // Anonymous class
+    const WithClass =  class extends Component {   // Anonymous class
         render() {
             return (
                 <div className={className}>
-                    <WrappedComponent {...this.props} />
+                    <WrappedComponent ref={this.props.forwardedRef} {...this.props} />
                 </div>
             )
         }
     }
+
+    return React.forwardRef((props, ref) => {
+        return <WithClass {...props} forwardedRef = {ref} />;  // forwardedRef name is upto you
+    });
 }
 
 export default withClass;
