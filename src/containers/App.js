@@ -20,9 +20,10 @@ class App extends PureComponent {
     } 
   }
 
-  componentWillMount() {
-    console.log('[App.js] inside componentWillMount()');
-  }
+  // // From v16.3, discouraged to be used
+  // componentWillMount() {
+  //   console.log('[App.js] inside componentWillMount()');
+  // }
 
   componentDidMount() {
     console.log('[App.js] inside componentDidMount()');
@@ -44,8 +45,26 @@ class App extends PureComponent {
   //          nextState.showPersons !== this.state.showPersons;
   // }
 
-  componentWillUpdate(nextProps, nextState) {
-    console.log('[UPDATE App.js] inside componentWillUpdate() ', nextProps, nextState);
+  // // From v16.3, discouraged to be used
+  // componentWillUpdate(nextProps, nextState) {
+  //   console.log('[UPDATE App.js] inside componentWillUpdate() ', nextProps, nextState);
+  // }
+
+  
+  // It will be called before .render() method and before componentDidMount() method
+  // So, it will give us chance to modify state using props
+  // It will be re-executed, if our props change
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log('[UPDATE App.js] inside getDerivedStateFromProps() ', nextProps, prevState);
+
+    // You can use nextProps to modify prevState and return the modified state
+    // Here we are simply returning prevState
+    return prevState;
+  }
+
+  // This will be executed just before componentDidUpdate() method.
+  getSnapshotBeforeUpdate() {
+    console.log('[UPDATE App.js] inside getSnapshotBeforeUpdate()');
   }
 
   componentDidUpdate() {
