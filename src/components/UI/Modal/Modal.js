@@ -10,7 +10,13 @@ class Modal extends Component {
         // Here making sure, that OrderSummary component won't be called 
         // If Modal has not be displayed.
         // Modal is displaying only when we click "ORDER NOW" button.
-        return nextProps.show !== this.props.show;
+
+        //console.log('nextProps.show: '+nextProps.show);
+        //console.log('this.props.show: '+this.props.show);
+
+        // Now here, children can be either modal or loader
+        // So, we need to apply one more check here for children.
+        return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
     }
 
     componentWillUpdate() {
