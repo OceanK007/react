@@ -8,6 +8,10 @@ import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
+    state = {
+        auth: true
+    }
+
     render () {
         return (
             <div className="Blog">
@@ -41,12 +45,20 @@ class Blog extends Component {
                     {/* <Route path="/" exact render={() => <h1>Home</h1>} />
                     <Route path="/" exact render={() => <h1>Home2</h1>} /> */}
                     
-                    <Route path="/new-post" component={NewPost} />
+                    {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
                     <Route path="/posts" component={Posts} />
 
                     {/* Must always be defined in <Switch> else, only "to" will work */}
-                    <Redirect from="/" to="/posts" />
+                    {/* <Redirect from="/" to="/posts" /> */}
+
+                    {/* Or use this alternative of <Redirect> */}
                     {/* <Route path="/" component={Posts} /> */} 
+
+                    {/* This will catch all links which are not found */}
+                    {/* It must be defined at last */}
+                    {/* Note: Now even "/" will show "Not found" */}
+                    {/* Since we are not using <Redirect> */}
+                    <Route render={() => <h1>Not found</h1>} />                    
                 </Switch>
             </div>
         );
