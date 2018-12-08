@@ -9,14 +9,16 @@ class FullPost extends Component {
     }
 
     // We will see an infinite http requests sending in network tab
-    // It is because componentDidUpdate() method will be called over and over
-    // when there is an state change occurs, which again calls componentDidUpdate() method
-    // And here we are changing state in componentDidUpdate() method
-    componentDidUpdate() {
-        if(this.props.id) {
+    // It is because componentDidMount() method will be called over and over
+    // when there is an state change occurs, which again calls componentDidMount() method
+    // And here we are changing state in componentDidMount() method
+    componentDidMount() {
+        console.log(this.props);
+
+        if(this.props.match.params.id) {
             // Solution to fix infinite http requests
             if( !this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
-                axios.get('/posts/'+this.props.id)
+                axios.get('/posts/'+this.props.match.params.id)
                 .then(response => {
                     //console.log(response);
                     this.setState({loadedPost: response.data});
