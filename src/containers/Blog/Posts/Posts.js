@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import axios from '../../../axios';
 import Post from '../../../components/Post/Post';
@@ -32,7 +32,11 @@ class Posts extends Component {
     }
 
     postSelectedHandler = (id) => {
-        this.setState({selectedPostId: id});
+        // history.push() method allows you to push a new page on the stack of pages
+        // Since navigation just means a stack of pages, that's why forward and backward
+        // buttons work in browsers.
+        this.props.history.push({pathname: '/' + id});
+        // this.props.history.push('/' + id);   // Or simply this
     }
 
     render() {
@@ -42,13 +46,14 @@ class Posts extends Component {
             posts = this.state.posts
             .map(post => {
                 return (
-                    <Link to={'/'+post.id} key={post.id} >
+                    // <Link to={'/'+post.id} key={post.id} >
                         <Post 
+                            key={post.id}
                             title={post.title} 
                             author={post.author} 
                             clicked={() => this.postSelectedHandler(post.id)}
                         />
-                    </Link>
+                    // </Link>
                 )
             });
         }
