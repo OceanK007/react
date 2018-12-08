@@ -5,7 +5,15 @@ import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 import './Blog.css';
 import Posts from './Posts/Posts';
-import NewPost from './NewPost/NewPost';
+import asyncComponent from '../../hoc/asyncComponent';
+// import NewPost from './NewPost/NewPost';  // Lazily loaded now
+
+
+const AsyncNewPost = asyncComponent(() => {
+    // here return import() means, whatever will come in this import() parenthesis will
+    // only imported when this function executed.
+    return import('./NewPost/NewPost'); // Original path to NewPost
+});
 
 class Blog extends Component {
     state = {
@@ -45,7 +53,7 @@ class Blog extends Component {
                     {/* <Route path="/" exact render={() => <h1>Home</h1>} />
                     <Route path="/" exact render={() => <h1>Home2</h1>} /> */}
                     
-                    {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
+                    {this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null}
                     <Route path="/posts" component={Posts} />
 
                     {/* Must always be defined in <Switch> else, only "to" will work */}
