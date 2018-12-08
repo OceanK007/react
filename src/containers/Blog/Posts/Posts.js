@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import axios from '../../../axios';
 import Post from '../../../components/Post/Post';
+import FullPost from '../FullPost/FullPost';
 import './Posts.css';
 
 class Posts extends Component {
@@ -35,8 +37,8 @@ class Posts extends Component {
         // history.push() method allows you to push a new page on the stack of pages
         // Since navigation just means a stack of pages, that's why forward and backward
         // buttons work in browsers.
-        this.props.history.push({pathname: '/' + id});
-        // this.props.history.push('/' + id);   // Or simply this
+        this.props.history.push({pathname: '/posts/' + id});
+        // this.props.history.push('/posts/' + id);   // Or simply this
     }
 
     render() {
@@ -46,7 +48,7 @@ class Posts extends Component {
             posts = this.state.posts
             .map(post => {
                 return (
-                    // <Link to={'/'+post.id} key={post.id} >
+                    // <Link to={'/posts/'+post.id} key={post.id} >
                         <Post 
                             key={post.id}
                             title={post.title} 
@@ -59,9 +61,12 @@ class Posts extends Component {
         }
 
         return (
-            <section className="Posts">
-                {posts}
-            </section>
+            <div>
+                <section className="Posts">
+                    {posts}
+                </section>
+                <Route path={this.props.match.url + '/:id'} exact component={FullPost} />
+            </div>
         )
     }
 }
