@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/actions';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     results: []
@@ -7,6 +7,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch(action.type) {
         case actionTypes.STORE_RESULT:
+            // We can modify the data here // Recommended place
             return {
                 ...state,
                 // use .concat(), since .push() manipulates the original array
