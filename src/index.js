@@ -2,17 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
+import orderReducer from './store/reducers/order';
+
+const rootReducer = combineReducers({
+    burgerBuilderReducer: burgerBuilderReducer,
+    orderReducer: orderReducer
+});
 
 // Adding chrome dev tools extension and redux-thunk
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(burgerBuilderReducer, composeEnhancers(applyMiddleware(thunk))); // can pass many middlewares
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk))); // can pass many middlewares
 
 // Enabling routing by wrapping <App /> in <BrowserRouter>
 const app = (
