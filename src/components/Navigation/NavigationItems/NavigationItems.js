@@ -8,6 +8,7 @@ const navigationItems = (props) => (
         {/* Passing "exact" keyword to make sure only this link will have exact match */}
         <NavigationItem link="/" exact>Burger Builder</NavigationItem>
         <NavigationItem link="/orders">Orders</NavigationItem>
+        <NavigationItem link="/auth">Authenticate</NavigationItem>
     </ul>
 );
 
