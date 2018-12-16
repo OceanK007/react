@@ -10,14 +10,18 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
+import authReducer from './store/reducers/auth';
 
 const rootReducer = combineReducers({
     burgerBuilderReducer: burgerBuilderReducer,
-    orderReducer: orderReducer
+    orderReducer: orderReducer,
+    authReducer: authReducer
 });
 
 // Adding chrome dev tools extension and redux-thunk
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// Redux dev tools will work on development env only
+// check config/env.js to see env variables
+const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk))); // can pass many middlewares
 
