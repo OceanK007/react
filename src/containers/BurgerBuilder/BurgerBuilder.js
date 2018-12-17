@@ -11,7 +11,7 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../store/actions/index';
 import axios from '../../axios-orders';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     // // Can define state this way as well
     // constructor(props) {
     //     super(props);
@@ -90,7 +90,7 @@ class BurgerBuilder extends Component {
             // Setting, order summary or spinner in modal
             orderSummary = <OrderSummary 
                 ingredients={this.props.ings} 
-                price={this.props.price.toFixed(2)}
+                price={this.props.price}
                 purchaseCancelled={this.purchaseCancelHandler}
                 purchaseContinued={this.purchaseContinueHandler} />;
         }
